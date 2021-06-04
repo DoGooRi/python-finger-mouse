@@ -24,8 +24,10 @@ detector = htm.handDetector(maxHands=1)
 wScr, hScr = autopy.screen.size()
 
 while True:
-    # 손 추적 및 그리기
     success, img = cap.read()
+    # 좌우 반전
+    img = cv2.flip(img, 1)
+    # 손 추적 및 그리기
     img = detector.findHands(img)
     lmList, bbox = detector.findPosition(img)
 
@@ -72,6 +74,9 @@ while True:
         # 검지 ~ 약지 모두 필 경우 프로그램 종료
         if fingers[0] == 0 and fingers[1] == 1 and fingers[2] == 1 and fingers[3] == 1 and fingers[4] == 1:
             break
+
+    # 좌우 반전 (원상태)
+    img = cv2.flip(img, 1)
 
     # 프레임 레이트 표기
     cTime = time.time()
